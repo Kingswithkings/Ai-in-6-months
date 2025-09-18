@@ -1,0 +1,7 @@
+# Lists: ordered, mutable collections
+fruits = ["apple", "bannana", "Mangoe"]
+fruits.append("orange")
+print("Fruits:", fruits)
+
+# Accessing list elements
+print("First fruit:", fruits[0])

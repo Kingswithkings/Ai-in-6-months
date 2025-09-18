@@ -1,0 +1,4 @@
+# Example: Defining and calling a simple function
+def greetings(name):
+    return f"Hi", {name}
+print(greetings("Kings"))

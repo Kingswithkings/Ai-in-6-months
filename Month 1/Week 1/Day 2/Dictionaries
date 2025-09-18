@@ -1,0 +1,7 @@
+# Dictionaries: key-value pairs
+person = {"name": "Alice", "age": 25, "city": "London"}
+print("person:", person["name"])
+
+# Adding a new key-value pair
+person["job"] = "Engineer"
+print("Updated person:", person)

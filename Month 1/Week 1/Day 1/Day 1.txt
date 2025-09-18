@@ -1,0 +1,3 @@
+# Week 1 
+# Day 1 (Hello, Mini Task, Error Handling)
+# Day 2 Python Data Structures (Lists, Tuples, Sets, Dictionaries)

@@ -1,0 +1,4 @@
+🎯 Challenge Task
+1. Create a list of 10 patients with duplicate IDs. Remove duplicates using a set.  
+2. Create a dictionary of patients with their BMI values. Write code to print out patients with BMI > 25.  
+3. Extend the chatbot memory by allowing the user to add new Q/A pairs.

@@ -1,0 +1,22 @@
+Day 2: Python Data Structures
+Welcome to Day 2 of your AI Engineer curriculum! 🎯
+
+Today we’ll cover the four core Python data structures:
+
+Lists
+Tuples
+Sets
+Dictionaries
+By the end of today, you should be able to:
+
+Create and manipulate these data structures.
+Understand when to use each one.
+Solve small coding challenges using them.
+
+
+
+Practice Exercises
+Create a list of 5 numbers. Print the largest and smallest.
+Create a tuple with 3 colors. Try to change one element – what happens?
+Make a set of the letters in the word artificial. How many unique letters?
+Create a dictionary for a student with keys: name, age, grade. Add a new key passed with a boolean value.

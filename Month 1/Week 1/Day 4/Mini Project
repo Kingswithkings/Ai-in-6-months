@@ -1,0 +1,22 @@
+# 🎯 Mini Project: Student Score Tracker
+# Write a function that accepts a dictionary of student names and scores.
+# Functions should calculate:
+# The average score
+# The highest and lowest score
+# Return results in a clean format
+
+
+def analyse_scores(scores):
+    average = sum(scores.values()) / len(scores)
+    highest = max(scores, key=scores.get)
+    lowest = min(scores, key=scores.get)
+
+    return {
+        "average": average,
+        "highest": (highest, scores [highest]),
+        "lowest": (lowest, scores [lowest])
+    }
+
+students_scores = {"Kings": 85, "John": 92, "Alice": 78, "Mary": 95}
+result = analyse_scores(students_scores)
+print(result)

@@ -1,0 +1,4 @@
+# Tuple is ordered and immutable
+# Example: coordinates of sensor readings
+sensor_reading = (23.5, 45.2)
+print("Sensor Reading:", sensor_reading)

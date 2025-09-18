@@ -1,0 +1,4 @@
+# Example: Lambada Function
+places = [("London", 12), ("Abuja", 40), ("Lagos", 42)]
+sorted_places = sorted(places, key=lambda x: x[1])
+print(sorted_places)

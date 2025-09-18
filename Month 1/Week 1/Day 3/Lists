@@ -1,0 +1,12 @@
+# A list is an ordered, mutable collection
+# Example List of patient ages
+patient_ages = [23, 45, 34, 23, 50]
+print("Ages:", patient_ages)
+print("First Age:", patient_ages[0])
+
+# Add new patient
+patient_ages.append(29)
+print("Updated Ages:", patient_ages)
+
+# Slice ages
+print("First three:", patient_ages[:3])

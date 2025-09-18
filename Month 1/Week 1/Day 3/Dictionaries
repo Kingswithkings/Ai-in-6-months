@@ -1,0 +1,8 @@
+# A dictionary stores data as key-value pairs
+# Example: Symptom → Condition mapping
+symptom_diagnosis = {"fever": "flu", "chest pain": "heart issue", "headache": "magraine"}
+print("Fever maps to:", symptom_diagnosis ["fever"])
+
+# Add new entry
+symptom_diagnosis["cough"] = "cold"
+print("Updated Diagnosis Map:", symptom_diagnosis)

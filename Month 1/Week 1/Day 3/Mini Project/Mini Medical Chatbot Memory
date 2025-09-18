@@ -1,0 +1,14 @@
+# Build a chatbot memory store using a dictionary
+
+chat_memory = {}
+
+# store interactions
+chat_memory["Q1"] = "What are the symptons of diabetes?"
+chat_memory["A1"] = "Common symptons include thirst, frequent urination, and fatigue."
+
+chat_memory["Q2"] = "What is AI in healthcare?"
+chat_memory["A2"] = "AI assists in diagnosis, predictions, and patient care."
+
+# print stored memory 
+for key, value in chat_memory.items():
+    print(key, ":", value)

@@ -1,0 +1,32 @@
+# 1 Largest and Smallest Numbers
+numbers = [20, 7, 50, 3, 44]
+print(f"The largest number is: {max(numbers)}")
+print(f"The smallest number is: {min(numbers)}")
+
+
+# 2 Tuple Element Change
+# When you try to change an element in a tuple, a TypeError occurs because tuples are immutable, meaning their elements cannot be changed after creation.
+colours = ('yellow', 'purple', 'blue')
+colours = ('red', 'green', 'blue')
+# This will cause a TypeError: 'tuple' object does not support item assignment
+# colours[0] = 'yellow'
+
+# 3 Unique Letters in a Set
+# A set stores unique elements. By converting a astring to a set, duplicate letters are automatically removed.
+
+word = "Artificial Intelligence"
+letters_set = set(word)
+print(f"Unique letters: {letters_set}")
+print(f"Number of unique letters: {len(letters_set)}")
+
+# 4 Student Dictionary
+# You can add new key-value pairs to an existing dictionary. Here, a new key passed is added with a boolean value.
+student = {
+    'name': 'Alice',
+    'age': 18,
+    'grade': 'A'
+}
+
+# Add a new key to the dictionary
+student['passed'] = True
+print(student)
