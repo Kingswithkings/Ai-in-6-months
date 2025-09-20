@@ -1,0 +1,6 @@
+# Example: Dictionary
+student = {'name': 'Kings', 'age': 34, 'course': 'Artificial Intelligence with Technology', 'school': 'Northumbria University London', 'programme': 'MSc'}
+print(student)
+print('Student name:', student['name'])
+student['grade'] = 'A'
+print('After adding grade:', student)

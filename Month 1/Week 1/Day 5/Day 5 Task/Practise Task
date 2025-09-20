@@ -1,0 +1,11 @@
+# Create a list of 5 AI-related subjects and print the second one.
+# Define a tuple of 3 programming languages.
+# Create a set of numbers and remove one element.
+# Create a dictionary with details of your learning progress (day, topic, status).
+
+# Task 1
+# Ai Subjects List
+# This code creates a list of 5 Ai related subjects and then prints the subject at then prints the subject ata the second position (index 1)
+
+ai_subjects = ["Machine Learning", "Natural Language Processing", "Computer Vision", "Reinforcement Learning", "Neural Networks"]
+print(f"The second AI subject is: {ai_subjects[1]}") 

@@ -1,0 +1,7 @@
+# Example: List
+# Lists are ordered, mutable collections
+fruits = ['apple', 'banana', 'cherry',]
+print(fruits)
+fruits.append('orange')
+print('After appending:', fruits)
+print('First item:', fruits[0])

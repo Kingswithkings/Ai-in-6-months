@@ -1,0 +1,5 @@
+# Tuples are ordered immutable collections
+# Example: Tuple
+dimensions = (10, 20, 30)
+print(dimensions)
+print('Second element:', dimensions[1])

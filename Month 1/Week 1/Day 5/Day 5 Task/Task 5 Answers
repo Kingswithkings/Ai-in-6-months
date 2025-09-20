@@ -1,0 +1,24 @@
+# Task 1
+# Ai Subjects List
+# This code creates a list of 5 Ai related subjects and then prints the subject at then prints the subject ata the second position (index 1)
+ai_subjects = ["Machine Learning", "Natural Language Processing", "Computer Vision", "Reinforcement Learning", "Neural Networks"]
+print(f"The second AI subject is: {ai_subjects[0]}")
+
+# Task 2
+# A Tuple is defined using parenthesis (). It is an ordered, immutable collection.
+languages = ("Python", "Java", "C++")
+print(f"Programming languages tuple:{languages}")
+
+# Task 3
+# Set Operations
+# This example creates a set of numbers and then uses the.remove() method to delete one of the elements.
+numbers_set = {10, 20, 30, 40, 50}
+print(f"Original set: {numbers_set}")
+numbers_set.remove(30)
+print(f"Set after removing 30 {numbers_set}")
+
+# Task 4
+# Learning Progress Dictionary
+# A dictionary stores data in key-value pairs. This example creates a dictionary to track learning process and prints it.
+learning_progress = {"day": 5, "topic": "Data structures", "status": "In progress"}
+print(f"Learning progress dictionary: {learning_progress}")
