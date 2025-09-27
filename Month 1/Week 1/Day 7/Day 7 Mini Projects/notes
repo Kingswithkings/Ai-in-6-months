@@ -1,0 +1,15 @@
+## Exercises & Extensions
+
+1. Extend the calculator to support unary operations like `sqrt 9` (use math.sqrt).
+2. Add history browsing: let the user type `history` to see past operations from `calculator.log`.
+3. Create a GUI for the calculator using Streamlit or Tkinter (stretch goal).
+
+Try these extensions after you run the basic calculator.
+
+## Exercises & Extensions
+
+1. Extend the calculator to support unary operations like `sqrt 9` (use math.sqrt).
+2. Add history browsing: let the user type `history` to see past operations from `calculator.log`.
+3. Create a GUI for the calculator using Streamlit or Tkinter (stretch goal).
+
+Try these extensions after you run the basic calculator.

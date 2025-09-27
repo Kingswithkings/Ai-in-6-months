@@ -1,0 +1,2 @@
+Hello Kings!
+This is Day 8 file I\O practice.

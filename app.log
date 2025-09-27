@@ -1,0 +1,4 @@
+2025-09-27 22:01:04,373 DEBUG:Debug message
+2025-09-27 22:01:04,374 INFO:Info message: starting file processing
+2025-09-27 22:01:04,374 WARNING:Warning: example warning
+2025-09-27 22:01:04,375 ERROR:Error: example error
