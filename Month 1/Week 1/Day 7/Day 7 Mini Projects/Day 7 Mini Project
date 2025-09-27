@@ -1,0 +1,115 @@
+# Implementation of calculator functions and logger
+import logging
+from datetime import datetime
+
+# Configure logger
+logging.basicConfig(filename='calculator.log', level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+
+def multiply(a, b):
+    return a * b
+
+def divide(a, b):
+    if b == 0:
+        raise ZeroDivisionError('Cannot divide by zero')
+    return a / b
+
+def power(a, b):
+    return a ** b
+
+def modulus(a, b):
+    if b == 0:
+        raise ZeroDivisionError('Cannot modulo by zero')
+    return a % b
+
+ops = {
+    'add': add,
+    'subtract': subtract,
+    'multiply': multiply,
+    'divide': divide,
+    'power': power,
+    'mod': modulus,
+}
+
+print('Calculator functions and logger initialized')
+
+# Interactive loop (run this cell to use the calculator)
+print('Simple Calculator — type commands like: add 4 5')
+print('Available ops:', ', '.join(ops.keys()))
+print("Type 'exit' to quit")
+
+while True:
+    try:
+        line = input('> ').strip()
+        if not line:
+            continue
+        if line.lower() == 'exit':
+            print('Goodbye!')
+            break
+        parts = line.split()
+        if len(parts) != 3:
+            print('Usage: <op> <num1> <num2>')
+            continue
+        op, a_str, b_str = parts
+        if op not in ops:
+            print('Unknown operation. Available:', ', '.join(ops.keys()))
+            continue
+        try:
+            a = float(a_str)
+            b = float(b_str)
+        except ValueError:
+            print('Please enter valid numbers')
+            continue
+        try:
+            result = ops[op](a, b)
+        except ZeroDivisionError as e:
+            print('Error:', e)
+            continue
+        print('Result =', result)
+        # log the operation
+        logging.info(f"{op} {a} {b} = {result}")
+    except KeyboardInterrupt:
+        print('\nInterrupted. Exiting.')
+        break
+
+    # Non-interactive demo of calculator functions
+print('add(4,5)=', add(4,5))
+print('subtract(10,3)=', subtract(10,3))
+print('multiply(3,7)=', multiply(3,7))
+try:
+    print('divide(10,0)=', divide(10,0))
+except ZeroDivisionError as e:
+    print('Caught:', e)
+print('power(2,8)=', power(2,8))
+print('mod(10,3)=', modulus(10,3))
+
+# Show a few lines from the log file if present
+import os
+if os.path.exists('calculator.log'):
+    print('\nLast log lines:')
+    with open('calculator.log') as f:
+        lines = f.readlines()
+        for ln in lines[-5:]:
+            print(ln.strip())
+else:
+    print('\nNo log file found yet (run the interactive cell to create logs)')
+
+    # Simple tests (assert style)
+assert add(2,3) == 5
+assert subtract(5,2) == 3
+assert multiply(3,4) == 12
+try:
+    divide(1,0)
+    raise AssertionError('Expected ZeroDivisionError')
+except ZeroDivisionError:
+    pass
+assert power(2,3) == 8
+assert modulus(10,3) == 1
+print('All tests passed!')

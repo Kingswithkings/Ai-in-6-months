@@ -1,0 +1,23 @@
+# Create math_utils.py
+math_utils_code = '''"""math_utils — small math helper functions"""
+
+def add(a, b):
+    """Return sum of a and b."""
+    return a + b
+
+
+def subtract(a, b):
+    return a - b
+
+
+def multiply(a, b):
+    return a * b
+
+
+def divide(a, b):
+    if b == 0:
+        raise ValueError('Division by zero')
+    return a / b
+'''
+with open('math_utils.py', 'w') as f:
+    f.write(math_utils_code)

@@ -1,0 +1,12 @@
+# Exercise 5: Recursive factorial
+def factorial(n):
+    """Return factorial of n (n!). Assumes n >= 0 integer."""
+    if n < 0:
+        raise ValueError('n must be >= 0')
+    if n in (0,1):
+        return 1
+    return n * factorial(n-1)
+
+# Tests
+print('factorial(0)=', factorial(0))
+print('factorial(5)=', factorial(5))

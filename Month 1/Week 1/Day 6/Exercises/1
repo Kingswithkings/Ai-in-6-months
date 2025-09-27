@@ -1,0 +1,8 @@
+# Exercise 1: is_even(n)
+def is_even(n):
+    """Return True if n is even, else False."""
+    return n % 2 == 0
+
+# Tests
+print('is_even(4)=', is_even(4))
+print('is_even(7)=', is_even(7))

@@ -1,0 +1,16 @@
+x = 10 # global
+def show_local():
+    x = 5 # local
+    print('Inside function, x=' , x) 
+
+show_local()
+print('Outside function, x=' , x)
+
+# Using global to modify global variable
+
+def set(goal):
+    global x
+    x = 20
+
+set('global')
+print('After set_global(), x =', x)

@@ -1,0 +1,15 @@
+# Define simple functions, default args, and returning values.
+def greet(name='AI Engineer'):
+    """Return a greeting string for 'name'."""
+    return f"Hello, {name}!"
+
+# Tests
+print(greet())
+print(greet('Kings'))
+
+# Power function with default argument
+def power(base, exponent=2):
+    """Return base raised to exponent (default=2)."""
+    return base ** exponent
+print('powwer(5) ->', power(5))
+print('power(2,3) ->', power(2,3))

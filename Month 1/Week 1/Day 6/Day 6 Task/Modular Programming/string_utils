@@ -1,0 +1,23 @@
+# Create string_utils.py
+string_utils_code = '''"""string_utils — small string helper functions"""
+
+def reverse_string(s):
+    """Return the reversed string of s."""
+    return s[::-1]
+
+
+def is_palindrome(s):
+    """Return True if s is a palindrome (case-insensitive, ignores spaces)."""
+    s2 = ''.join(s.lower().split())
+    return s2 == s2[::-1]
+'''
+with open('string_utils.py', 'w') as f:
+    f.write(string_utils_code)
+
+print('Wrote math_utils.py and string_utils.py to disk')
+
+# Show files
+import os
+print('Files present:', [f for f in os.listdir('.') if f in ('math_utils.py','string_utils.py')])
+
+

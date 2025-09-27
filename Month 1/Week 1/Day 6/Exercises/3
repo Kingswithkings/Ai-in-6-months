@@ -1,0 +1,3 @@
+# Exercise 3: Lambda function to calculate cube
+cube = lambda x: x**3
+print('cube(3)=', cube(3))

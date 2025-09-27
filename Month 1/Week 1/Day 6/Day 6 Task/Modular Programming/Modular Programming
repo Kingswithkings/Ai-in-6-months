@@ -1,0 +1,9 @@
+# Now import and use the newly created modules
+import importlib
+math_utils = importlib.import_module('math_utils')
+from string_utils import reverse_string, is_palindrome
+
+print('add(4,5)=', math_utils.add(4,5))
+print('multiply(6,7)=', math_utils.multiply(6,7))
+print("reverse_string('Kings')=", reverse_string('Kings'))
+print("is_palindrome('level')=", is_palindrome('level'))

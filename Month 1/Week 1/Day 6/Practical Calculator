@@ -1,0 +1,9 @@
+# Practical Calculator
+
+from math_utils import divide
+
+for b in [2, 0, 5]:
+    try:
+        print(f'10 / {b} =', divide(10, b))
+    except ValueError as e:
+        print('Caught error:', e)
