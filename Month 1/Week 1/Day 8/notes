@@ -1,0 +1,13 @@
+# Day 8 — File I/O, CSV/JSON, Logging & Basic Testing
+# Today you'll learn how to read and write files, work with CSV and JSON data (essential for datasets), use logging for apps, and write basic unit tests with unittest.
+
+
+
+# Goals
+# Read/write plain text files
+# Work with CSV using csv and pandas
+# Serialize and deserialize JSON
+# Use logging for debug/info/error messages
+# Write simple unit tests with unittest
+
+

@@ -9,3 +9,4 @@ print('Wrote hello.txt')
 with open('hello.text', 'r', encoding='utf-8') as f:
     content = f.read()
 print('\nContent of hello.txt\n', content)
+
