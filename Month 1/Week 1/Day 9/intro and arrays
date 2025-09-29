@@ -1,0 +1,22 @@
+# N umpy - introduction and arrays
+
+import numpy as np
+
+# Create arrays
+arr = np.array([1, 2, 3, 4])
+print('arr:', arr)
+
+# Vectorized operations
+print('arr * 2 =', arr * 2)
+print('arr + arr =', arr + arr)
+
+# Multidimensional arrays
+mat = np.array([[1,2,3],[4,5,6]])
+print('\nmat:\n', mat)
+print('shape:', mat)
+print('shape:', mat.shape)
+
+# Reshape
+flat = np.arange(12)
+print('\flat:', flat)
+print('reshaped 3x4:\n', flat.reshape((3,4)))

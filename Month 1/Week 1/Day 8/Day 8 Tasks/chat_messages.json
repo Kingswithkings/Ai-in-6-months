@@ -1,0 +1,15 @@
+[
+     {"user": "Alice", "message": "Hi everyone."},
+  {"user": "Bob", "message": "What's the plan?"},
+  {"user": "Alice", "message": "We need to discuss project ideas."},
+  {"user": "Charlie", "message": "I have three great ideas!"},
+  {"user": "Bob", "message": "Send them over."},
+  {"user": "Alice", "message": "Sounds good."},
+  {"user": "Bob", "message": "Agreed."},
+  {"user": "Charlie", "message": "Here they come..."},
+  {"user": "Alice", "message": "Thanks."},
+  {"user": "Bob", "message": "Got them."},
+  {"user": "Charlie", "message": "Let me know what you think."},
+  {"user": "Alice", "message": "Will do."},
+  {"user": "Alice", "message": "This is a test message."}
+]

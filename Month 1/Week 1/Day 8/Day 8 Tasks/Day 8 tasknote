@@ -1,0 +1,4 @@
+# Exercises
+# Load people.csv with pandas and plot ages (optional, use matplotlib).
+# Extend ops.py with a power function and add tests.
+# Write a function that reads a JSON file of chat messages and returns the top 3 users by message count.
