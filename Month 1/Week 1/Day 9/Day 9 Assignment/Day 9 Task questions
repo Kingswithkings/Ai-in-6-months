@@ -1,0 +1,3 @@
+# Using NumPy, compute the mean and standard deviation of the array np.arange(1,101).
+# Load people.csv and plot age vs score (optional, use matplotlib).
+# Add a column age_group to df with values 'young' (<30) or 'adult' (>=30), then show counts per group.

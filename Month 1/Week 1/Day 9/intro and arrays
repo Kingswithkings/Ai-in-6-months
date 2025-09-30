@@ -20,3 +20,4 @@ print('shape:', mat.shape)
 flat = np.arange(12)
 print('\flat:', flat)
 print('reshaped 3x4:\n', flat.reshape((3,4)))
+
