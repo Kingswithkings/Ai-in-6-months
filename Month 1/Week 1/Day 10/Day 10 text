@@ -1,0 +1,10 @@
+# Day 10 — Data Visualization with Matplotlib & Intermediate Pandas¶
+# Today you'll learn how to visualize data using matplotlib and perform intermediate Pandas operations like groupby, pivot, and merging. Visualisation is essential for understanding datasets and presenting results.
+
+# Run each cell (select + Shift+Enter).
+
+# Objectives
+# Create line, scatter, histogram, and box plots with matplotlib
+# Use Pandas groupby, pivot_table, and merge
+# Save figures to disk
+# Practice: visualize people.csv and aggregated stats

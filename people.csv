@@ -1,4 +1,7 @@
-name,age,score
-Alice,23,88
-Kings,34,95
-Carol,27,79
+name,age,score,group,summary
+Alice,23,88,A
+Bob,30,95,B
+Kings,34,79,A
+Dave,45,82,B
+Eve,34,90,A
+Frank,28,76,B

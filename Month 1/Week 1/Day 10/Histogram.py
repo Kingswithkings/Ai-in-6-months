@@ -1,42 +1,27 @@
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
+import pandas as pd              # CORRECT: Pandas for read_csv and DataFrame operations
+import numpy as np               # CORRECT: NumPy for array/numerical operations
+import matplotlib.pyplot as plt  # CORRECT: matplotlib.pyplot for plotting functions
 
-# --- Data Setup ---
-# Load people.csv. 
-# NOTE: The 'score' column is not in the original people.csv, 
-# so we create a mock 'score' column (as done in the previous step) 
-# for the histogram to work without error.
-try:
-    df = pd.read_csv('people.csv')
-except FileNotFoundError:
-    print("Error: 'people.csv' not found. Please ensure it is in the current directory.")
-    exit()
+# Load the data using Pandas
+df = pd.read_csv('people.csv')
 
-# Add mock 'score' column for demonstration
-np.random.seed(42) # for reproducible random scores
-# Assuming 10 rows in people.csv based on earlier context
-if 'score' not in df.columns or df['score'].isnull().all():
-    df['score'] = np.random.randint(50, 101, size=len(df))
-
-# --- Plotting the Histogram ---
-plt.figure(figsize=(8, 5))
-
-# Use the correct function name: plt.savefig()
-# Convert 'score' to integer type for cleaner histogram bins
-plt.hist(df['score'].astype(int), bins=8, edgecolor='black', alpha=0.7, color='teal') 
-
-plt.title('Score Distribution')
-plt.xlabel('Score')
-plt.ylabel('Count')
-plt.grid(axis='y', alpha=0.5)
-
-# Fix the typo: 'savefigfig' -> 'savefig'
+# --- 1. Histogram of scores ---
+plt.figure(figsize=(7, 5))
+plt.hist(df['score'].astype(int), bins=8, edgecolor='black', color='#4CAF50')
+plt.title('Score Distribution', fontsize=16, fontweight='bold')
+plt.xlabel('Score Range', fontsize=12)
+plt.ylabel('Count', fontsize=12)
+plt.grid(axis='y', alpha=0.6, linestyle='--')
 plt.savefig('score_histogram.png')
-
 plt.show()
 
-print("\nHistogram generated successfully:")
-print("- Displayed on screen.")
-print("- Saved to 'score_histogram.png'.")
-
+# --- 2. Boxplot ---
+plt.figure(figsize=(5, 7))
+plt.boxplot(df['score'].astype(int), vert=True, patch_artist=True, 
+            boxprops=dict(facecolor='#2196F3', color='black'),
+            medianprops=dict(color='red'))
+plt.title('Score Boxplot', fontsize=16, fontweight='bold')
+plt.ylabel('Score', fontsize=12)
+plt.xticks([1], ['All Scores'])
+plt.savefig('score_boxplot.png')
+plt.show()
