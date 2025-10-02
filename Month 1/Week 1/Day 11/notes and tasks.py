@@ -70,3 +70,41 @@ plt.xlabel('Actual')
 plt.ylabel('Predicted')
 plt.title('Actual vs Predicted')
 plt.show()
+
+
+# Pipeline with StandardScaler + LinearRegression
+# pipeline
+pipe = Pipeline([
+    ('scaler', StandardScaler()),
+    ('lr', LinearRegression())
+])
+
+pipe.fit(X_train, y_train)
+
+y_pred_pipe = pipe.predict(X_test)
+
+mae_p = mean_absolute_error(y_test, y_pred_pipe)
+mse_p = mean_squared_error(y_test, y_pred)
+rmse_p = np.sqrt(mse_p)
+r2_p = r2_score(y_test, y_pred_pipe)
+
+print(f'pipeline MAE: {mae_p:.3f}')
+print(f'Pipeline RMSE: {rmse_p:.3f}')
+print(f'Pipeline R2: {r2_p:.3f}')
+
+
+# Cross-validation (negative MSE is returned by scikit-learn for scoring='neg_mean_squared_error')
+cv_scores = cross_val_score(pipe, X, y, cv=5, scoring='neg_mean_squared_error')
+cv_mse = -cv_scores
+cv_rmse = np.sqrt(cv_mse)
+print('CV MSE:', np.round(cv_mse, 3))
+print('CV RMSE:', np.round(cv_rmse, 3))
+print('Mean CV RMSE:', np.round(np.mean(cv_rmse), 3))
+
+# Inspect model coefficients
+# Fit linear model on full training set (with scaler) and inspect coefficients
+pipe.fit(X_train, y_train)
+coefs = pipe.named_steps['lr'].coef_
+intercept = pipe.named_steps['lr'].intercept_
+print('Intercept:', intercept)
+print('Coefficients:', coefs)
