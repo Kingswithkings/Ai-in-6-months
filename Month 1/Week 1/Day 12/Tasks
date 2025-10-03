@@ -1,0 +1,90 @@
+# Imports
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+print('Libraries imported')
+
+# Load Iris dataset and prepare features
+iris = datasets.load_iris()
+X = iris.data[:, :2] # use first two features for visualization
+y = iris.target
+feature_names = iris.feature_names[:2]
+print('Feature names:', feature_names)
+print('X shape:', X.shape)
+print('Classes:', np.unique(y))
+
+# Split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42, stratify=y)
+print('Train size:', X_train.shape[0], 'Test size:', X_test.shape[0])
+
+# Logistic Regresssion
+# Train Logistic regression
+logreg = LogisticRegression(multi_class='auto', solver='lbfgs', max_iter=200)
+logreg.fit(X_train, y_train)
+
+# Predict & evaluate
+# Classification Report
+y_pred_lr = logreg.predict(X_test)
+print('Accuracy (Logistic Regression):', accuracy_score(y_test, y_pred_lr))
+print('\nClassification Report:\n', classification_report(y_test, y_pred_lr, target_names=iris.target_names))
+
+# Confusion Matrix
+cm_lr = confusion_matrix(y_test, y_pred_lr)
+print('Confusion Matrix:\n', cm_lr)
+
+# K Nearest
+# Train k-NN
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X_train, y_train)
+
+y_pred_knn = knn.predict(X_test)
+print('Accuracy (k-NN):', accuracy_score(y_test, y_pred_knn))
+print('\nClassification Report:\n', classification_report(y_test, y_pred_knn, target_names=iris.target_names))
+
+cm_knn = confusion_matrix(y_test, y_pred_knn)
+print('Confusion Matrix:\n', cm_knn)
+
+
+# Confusion Matrix Visualization
+plt.figure(figsize=(12, 5))
+plt.subplot(1,2,1)
+sns.heatmap(cm_lr, annot=True, fmt='d', cmap='Blues', xticklabels=iris.target_names, yticklabels=iris.target_names)
+plt.title('Logistic Regression Confusion Matrix')
+plt.xlabel('Predicted')
+plt.ylabel('True')
+
+plt.subplot(1,2,2)
+sns.heatmap(cm_knn, annot=True, fmt='d', cmap='Greens', xticklabels=iris.target_names, yticklabels=iris.target_names)
+plt.title('k-NN Confusion Matrix')
+plt.xlabel('Predicted')
+plt.ylabel('True')
+plt.tight_layout()
+plt.show()
+
+# Decision Boundary Visualization (2D)
+def plot_decision_boundary(model, X, y, ax, title):
+    h = 0.02
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
+    Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)
+    ax.contourf(xx, yy, Z, alpha=0.3)
+    scatter = ax.scatter(X[:,0], X[:,1], c=y, edgecolor='k', cmap=plt.cm.viridis)
+    ax.set_xlabel(feature_names[0])
+    ax.set_ylabel(feature_names[1])
+    ax.set_title(title)
+    return scatter
+
+fig, axes = plt.subplots(1,2, figsize=(12,5))
+plot_decision_boundary(logreg, X, y, axes[0], 'Logistic Regression')
+plot_decision_boundary(knn, X, y, axes[1], 'k-NN (k=5)')
+plt.legend(handles=axes[1].collections[0].legend_elements()[0], labels=iris.target_names)
+plt.show()
+
