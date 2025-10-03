@@ -18,6 +18,7 @@ from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 print('Libraries imported')
@@ -61,6 +62,7 @@ print(f'MAE: {mae:.3f}')
 print(f'MSE: {mse:.3f}')
 print(f'RMSE: {rmse:.3f}')
 print(f'R2: {r2:.3f}')
+
 
 # Scatter actual vs Predicted
 plt.figure()

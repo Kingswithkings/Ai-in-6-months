@@ -15,8 +15,8 @@ print('\summary:\n', summary)
 merged = pd.merge(df, summary, on='group')
 print('\nMerged sample:\n', merged.head())
 
-
-summary.to_csv('group_summary.csv', index=False) # <--- Error happens here
+# Save and export
+summary.to_csv('group_summary.csv', index=False)
 print('saved group_summary.csv')
 
 # List ncreated image files

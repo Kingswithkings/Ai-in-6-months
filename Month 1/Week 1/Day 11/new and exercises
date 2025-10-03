@@ -1,0 +1,297 @@
+# Imports
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_regression
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.linear_model import LinearRegression, Ridge, Lasso
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, PolynomialFeatures
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+print('Libraries imported')
+
+# Create dataset
+X, y = make_regression(n_samples=200, n_features=3, noise=10.0, random_state=42)
+print('X shape:', X.shape)
+print('y shape:', y.shape)
+
+# Quick scatter of first feature vs target
+plt.figure(figsize=(8, 5))
+plt.scatter(X[:,0], y, alpha=0.6)
+plt.title('Feature 0 vs Target')
+plt.xlabel('Feature 0')
+plt.ylabel('Target')
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+print(f'\nTrain size: {X_train.shape[0]}')
+print(f'Test size: {X_test.shape[0]}')
+
+# ==================== BASELINE MODEL ====================
+print('\n' + '='*60)
+print('BASELINE: Linear Regression')
+print('='*60)
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+
+mae = mean_absolute_error(y_test, y_pred)
+mse = mean_squared_error(y_test, y_pred)
+rmse = np.sqrt(mse)
+r2 = r2_score(y_test, y_pred)
+
+print(f'MAE: {mae:.3f}')
+print(f'MSE: {mse:.3f}')
+print(f'RMSE: {rmse:.3f}')
+print(f'R2: {r2:.3f}')
+
+# Scatter actual vs predicted
+plt.figure(figsize=(8, 5))
+plt.scatter(y_test, y_pred, alpha=0.6)
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--', lw=2)
+plt.xlabel('Actual')
+plt.ylabel('Predicted')
+plt.title('Baseline: Actual vs Predicted')
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+# Pipeline with scaling
+pipe = Pipeline([
+    ('scaler', StandardScaler()),
+    ('lr', LinearRegression())
+])
+pipe.fit(X_train, y_train)
+y_pred_pipe = pipe.predict(X_test)
+
+mae_p = mean_absolute_error(y_test, y_pred_pipe)
+rmse_p = np.sqrt(mean_squared_error(y_test, y_pred_pipe))
+r2_p = r2_score(y_test, y_pred_pipe)
+
+print(f'\nWith Scaling:')
+print(f'Pipeline MAE: {mae_p:.3f}')
+print(f'Pipeline RMSE: {rmse_p:.3f}')
+print(f'Pipeline R2: {r2_p:.3f}')
+
+# Cross-validation
+cv_scores = cross_val_score(pipe, X, y, cv=5, scoring='neg_mean_squared_error')
+cv_mse = -cv_scores
+cv_rmse = np.sqrt(cv_mse)
+print(f'\nCross-Validation RMSE: {np.round(cv_rmse, 3)}')
+print(f'Mean CV RMSE: {np.mean(cv_rmse):.3f} (+/- {np.std(cv_rmse):.3f})')
+
+coefs = pipe.named_steps['lr'].coef_
+intercept = pipe.named_steps['lr'].intercept_
+print(f'\nIntercept: {intercept:.3f}')
+print(f'Coefficients: {np.round(coefs, 3)}')
+
+# ==================== EXERCISE 1: POLYNOMIAL FEATURES ====================
+print('\n' + '='*60)
+print('EXERCISE 1: Polynomial Features')
+print('='*60)
+
+results_poly = {}
+degrees = [1, 2, 3]
+
+for deg in degrees:
+    if deg == 1:
+        # Degree 1 is just the baseline
+        pipe_poly = Pipeline([
+            ('scaler', StandardScaler()),
+            ('lr', LinearRegression())
+        ])
+    else:
+        pipe_poly = Pipeline([
+            ('poly', PolynomialFeatures(degree=deg, include_bias=False)),
+            ('scaler', StandardScaler()),
+            ('lr', LinearRegression())
+        ])
+    
+    pipe_poly.fit(X_train, y_train)
+    y_pred_poly = pipe_poly.predict(X_test)
+    
+    mae_poly = mean_absolute_error(y_test, y_pred_poly)
+    rmse_poly = np.sqrt(mean_squared_error(y_test, y_pred_poly))
+    r2_poly = r2_score(y_test, y_pred_poly)
+    
+    # Cross-validation
+    cv_scores_poly = cross_val_score(pipe_poly, X, y, cv=5, scoring='neg_mean_squared_error')
+    cv_rmse_poly = np.sqrt(-cv_scores_poly)
+    
+    results_poly[deg] = {
+        'MAE': mae_poly,
+        'RMSE': rmse_poly,
+        'R2': r2_poly,
+        'CV_RMSE': np.mean(cv_rmse_poly),
+        'CV_RMSE_std': np.std(cv_rmse_poly)
+    }
+    
+    print(f'\nDegree {deg}:')
+    print(f'  Test MAE: {mae_poly:.3f}')
+    print(f'  Test RMSE: {rmse_poly:.3f}')
+    print(f'  Test R2: {r2_poly:.3f}')
+    print(f'  CV RMSE: {np.mean(cv_rmse_poly):.3f} (+/- {np.std(cv_rmse_poly):.3f})')
+
+# Visualization of polynomial results
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+metrics = ['RMSE', 'R2']
+for idx, metric in enumerate(metrics):
+    vals = [results_poly[d][metric] for d in degrees]
+    axes[idx].plot(degrees, vals, marker='o', linewidth=2, markersize=8)
+    axes[idx].set_xlabel('Polynomial Degree')
+    axes[idx].set_ylabel(metric)
+    axes[idx].set_title(f'{metric} vs Polynomial Degree')
+    axes[idx].grid(alpha=0.3)
+    axes[idx].set_xticks(degrees)
+
+plt.tight_layout()
+plt.show()
+
+# ==================== EXERCISE 2: RIDGE AND LASSO ====================
+print('\n' + '='*60)
+print('EXERCISE 2: Ridge and Lasso Regression')
+print('='*60)
+
+models = {
+    'Linear': LinearRegression(),
+    'Ridge': Ridge(alpha=1.0),
+    'Lasso': Lasso(alpha=0.1)
+}
+
+results_reg = {}
+coef_comparison = {}
+
+for name, mdl in models.items():
+    pipe_reg = Pipeline([
+        ('scaler', StandardScaler()),
+        ('model', mdl)
+    ])
+    
+    pipe_reg.fit(X_train, y_train)
+    y_pred_reg = pipe_reg.predict(X_test)
+    
+    mae_reg = mean_absolute_error(y_test, y_pred_reg)
+    rmse_reg = np.sqrt(mean_squared_error(y_test, y_pred_reg))
+    r2_reg = r2_score(y_test, y_pred_reg)
+    
+    # Cross-validation
+    cv_scores_reg = cross_val_score(pipe_reg, X, y, cv=5, scoring='neg_mean_squared_error')
+    cv_rmse_reg = np.sqrt(-cv_scores_reg)
+    
+    results_reg[name] = {
+        'MAE': mae_reg,
+        'RMSE': rmse_reg,
+        'R2': r2_reg,
+        'CV_RMSE': np.mean(cv_rmse_reg)
+    }
+    
+    coef_comparison[name] = pipe_reg.named_steps['model'].coef_
+    
+    print(f'\n{name} Regression:')
+    print(f'  Test MAE: {mae_reg:.3f}')
+    print(f'  Test RMSE: {rmse_reg:.3f}')
+    print(f'  Test R2: {r2_reg:.3f}')
+    print(f'  CV RMSE: {np.mean(cv_rmse_reg):.3f}')
+    print(f'  Coefficients: {np.round(pipe_reg.named_steps["model"].coef_, 3)}')
+
+# Coefficient comparison plot
+fig, ax = plt.subplots(figsize=(10, 6))
+x_pos = np.arange(3)
+width = 0.25
+
+for idx, (name, coefs) in enumerate(coef_comparison.items()):
+    ax.bar(x_pos + idx*width, coefs, width, label=name, alpha=0.8)
+
+ax.set_xlabel('Feature Index')
+ax.set_ylabel('Coefficient Value')
+ax.set_title('Coefficient Comparison: Linear vs Ridge vs Lasso')
+ax.set_xticks(x_pos + width)
+ax.set_xticklabels([f'Feature {i}' for i in range(3)])
+ax.legend()
+ax.grid(alpha=0.3, axis='y')
+plt.tight_layout()
+plt.show()
+
+# ==================== EXERCISE 3: TIME-SERIES LIKE SPLIT ====================
+print('\n' + '='*60)
+print('EXERCISE 3: Time-Series Like Split (shuffle=False)')
+print('='*60)
+
+X_train_ts, X_test_ts, y_train_ts, y_test_ts = train_test_split(
+    X, y, test_size=0.2, random_state=42, shuffle=False
+)
+
+pipe_ts = Pipeline([
+    ('scaler', StandardScaler()),
+    ('lr', LinearRegression())
+])
+
+pipe_ts.fit(X_train_ts, y_train_ts)
+y_pred_ts = pipe_ts.predict(X_test_ts)
+
+mae_ts = mean_absolute_error(y_test_ts, y_pred_ts)
+rmse_ts = np.sqrt(mean_squared_error(y_test_ts, y_pred_ts))
+r2_ts = r2_score(y_test_ts, y_pred_ts)
+
+print(f'\nTime-Series Split (shuffle=False):')
+print(f'  Test MAE: {mae_ts:.3f}')
+print(f'  Test RMSE: {rmse_ts:.3f}')
+print(f'  Test R2: {r2_ts:.3f}')
+
+print(f'\nRegular Split (shuffle=True):')
+print(f'  Test MAE: {mae_p:.3f}')
+print(f'  Test RMSE: {rmse_p:.3f}')
+print(f'  Test R2: {r2_p:.3f}')
+
+print(f'\nDifference:')
+print(f'  RMSE difference: {abs(rmse_ts - rmse_p):.3f}')
+print(f'  R2 difference: {abs(r2_ts - r2_p):.3f}')
+
+# Visualize the difference
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# Shuffled split
+axes[0].scatter(y_test, y_pred_pipe, alpha=0.6)
+axes[0].plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--', lw=2)
+axes[0].set_xlabel('Actual')
+axes[0].set_ylabel('Predicted')
+axes[0].set_title(f'Shuffled Split (R² = {r2_p:.3f})')
+axes[0].grid(alpha=0.3)
+
+# Time-series split
+axes[1].scatter(y_test_ts, y_pred_ts, alpha=0.6, color='orange')
+axes[1].plot([y_test_ts.min(), y_test_ts.max()], [y_test_ts.min(), y_test_ts.max()], 'r--', lw=2)
+axes[1].set_xlabel('Actual')
+axes[1].set_ylabel('Predicted')
+axes[1].set_title(f'Time-Series Split (R² = {r2_ts:.3f})')
+axes[1].grid(alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# ==================== SUMMARY ====================
+print('\n' + '='*60)
+print('SUMMARY OF ALL EXERCISES')
+print('='*60)
+print('\nPolynomial Features (Test RMSE):')
+for deg in degrees:
+    print(f'  Degree {deg}: {results_poly[deg]["RMSE"]:.3f}')
+
+print('\nRegularization Comparison (Test RMSE):')
+for name, res in results_reg.items():
+    print(f'  {name}: {res["RMSE"]:.3f}')
+
+print(f'\nTrain-Test Split Strategy (Test RMSE):')
+print(f'  Shuffled: {rmse_p:.3f}')
+print(f'  Sequential: {rmse_ts:.3f}')
+
+print('\n' + '='*60)
+print('Analysis complete! Key findings:')
+print('- Polynomial features may improve fit but watch for overfitting')
+print('- Ridge/Lasso help with regularization and feature selection')
+print('- Sequential splits matter for temporal data patterns')
+print('='*60)

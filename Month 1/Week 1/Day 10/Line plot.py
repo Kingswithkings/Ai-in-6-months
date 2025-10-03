@@ -21,3 +21,4 @@ plt.ylabel('Score')
 plt.grid(True)
 plt.savefig('score_vs_age_scatter.png')
 plt.show()
+
