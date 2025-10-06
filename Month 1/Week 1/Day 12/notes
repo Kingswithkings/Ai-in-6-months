@@ -1,0 +1,2 @@
+# Day 12 — Classification Basics (Logistic Regression & k-NN)¶
+# Today you'll learn classification fundamentals with scikit-learn using the Iris dataset. We'll train Logistic Regression and k-NN classifiers, evaluate them (confusion matrix, precision/recall/F1), and visualize decision boundaries for intuition.
