@@ -1,6 +1,7 @@
 # Imports
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn import datasets
 from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV
@@ -61,7 +62,7 @@ from scipy.stats import expon, randint
 param_dist_svc = {
     'svc__C': expon(scale=1.0), # continious distribution
     'svc__gamma': expon(scale=0.1),
-    'svc_kernel': ['rbf', 'poly']
+    'svc__kernel': ['rbf', 'poly']
 }
 
 rs_svc = RandomizedSearchCV(pipe_svc, param_dist_svc, n_iter=20, cv=5, scoring='accuracy', n_jobs=-1, random_state=42)
@@ -75,3 +76,24 @@ best_rf = gs_rf.best_estimator_
 y_pred_rf = best_rf.predict(X_test)
 print('Test Accuracy (RF):', accuracy_score(y_test, y_pred_rf))
 print('\nClassification Report (RF):\n', classification_report(y_test, y_pred_rf, target_names=iris.target_names))
+
+# 4. Inspect and Evaluate
+
+# Convert_results_ to DataFrame and show top rows
+cv_rf = pd.DataFrame(gs_rf.cv_results_)
+cols = ['params', 'mean_test_score', 'std_test_score', 'rank_test_score']
+print(cv_rf[cols].sort_values('rank_test_score').head(10))
+
+# 5. Visualise GridSearch results - heatmap for n_estimators vs max_depth
+# Create pivot table for heatmap
+pv = cv_rf.copy()
+pv['n_estimators'] = pv['params'].apply(lambda p: p['rf__n_estimators'])
+pv['max_depth'] = pv['params'].apply(lambda p: -1 if p['rf__max_depth'] is None else p['rf__max_depth'])
+
+heat = pv.pivot_table(values='mean_test_score', index='n_estimators', columns='max_depth')
+
+plt.figure(figsize=(6,4))
+import seaborn as sns
+sns.heatmap(heat, annot=True, fmt='.3f', cmap='viridis')
+plt.title('GridSearch RF mean_test_score')
+plt.show()
