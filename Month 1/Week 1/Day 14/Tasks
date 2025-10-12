@@ -61,3 +61,91 @@ plt.figure(figsize=(6,4))
 plt.scatter(X[:,0], X[:,1], c=y, cmap='viridis', s=10)
 plt.title('Synthetic blobs')
 plt.show()
+
+# Define Model: simple 2-layer MLP
+class SimpleMLP(nn.Module):
+    def __init__(self, in_dim=2, hidden=16, out_dim=2):
+        super().__init__()
+        self.net = nn.sequential(
+            nn.Linear(in_dim, hidden),
+            nn.ReLU(),
+            nn.Linear(hidden, out_dim)
+        )
+        def forward(self, X):
+            return self.net(x)
+        
+model = SimpleMLP()
+print(model)
+
+# Training setup
+loss_fn = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.01)
+
+# Train/val split
+num_samples = tX.shape[0]
+idx = torch.randperm(num_samples)
+train_idx = idx[:int(0.8*num_samples)]
+val_idx = idx[int(0.8*num_samples):]
+
+X_train = tX[train_idx]
+y_train = ty[train_idx]
+X_val = tX[val_idx]
+y_val = ty[val_idx]
+
+print('Train size:', X_train.shape[0], 'val size:', X_val.shape[0])
+
+
+# Trainning loop
+n_epochs = 100
+batch_size = 32
+losses = []
+val_losses = []
+for epoch in range(n_epochs):
+    model.train()
+    perm = torch.randperm(X_train.size(0))
+    epoch_loss = 0.0
+    for i in range(0, X_train.size(0), batch_size):
+        batch_idx = perm[i:i+batch_size]
+        xb = X_train[batch_idx]
+        yb = y_train[batch_idx]
+        logits = model(xb)
+        loss = loss_fn(logits, yb)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        epoch_loss += loss.item() * xb.size(0)
+    epoch_loss /= X_train.size(0)
+    losses.append(epoch_loss)
+    # Validation
+    model.eval()
+    with torch.no_grad():
+        v_logits = model(X_val)
+        v_loss = loss_fn(v_logits, y_val).item()
+        val_losses.append(v_loss)
+    if (epoch+1) % 10 == 0:
+        print(f'Epoch {epoch+1}/{n_epochs} - train loss: {epoch_loss:.4f} - val loss: {v_loss:.4f}')
+
+
+# Plot losses
+plt.figure()
+plt.plot(losses, label='train')
+plt.legend()
+plt.title('Trainning and validation Loss')
+plt.show()
+
+# Evaluate accuracy on validation set
+model.eval()
+with torch.no_grad():
+    preds = model(X_val).argmax(dim=1)
+    acc = (preds == y_val).float().mean().item()
+print('Validation accuracy:', acc)
+
+# Save and Load Model
+# Save model
+torch.save(model.state_dict(), 'simple_mlp.pth')
+print('Saved model to simple_mlp.pth')
+
+# Load into new model instance
+m2 = SimpleMLP
+m2.load_state_dict(torch.load('simple_mlp.pth'))
+print('Loaded model state into new instance')
