@@ -11,8 +11,8 @@ print('PyTorch version:', torch.__version__)
 # Task 1 : Creation and OPerations (Tensors are the core data structure in PyTorch, similar to NumPy arrays but with GPU support and autograd).
 
 # Create tensors
-x = torch.tensor([1.0, 2.0, 3.0])
-print('x:', x)
+X = torch.tensor([1.0, 2.0, 3.0])
+print('x:', X)
 
 # From numpy
 arr = np.array([4.0, 5.0, 6.0])
@@ -24,8 +24,8 @@ r = torch.randn(2,3)
 print('random:', r)
 
 # Basic operations
-print('x + x', x + x)
-print('x * 2:', x * 2)
+print('x + x', X + X)
+print('x * 2:', X * 2)
 
 
 # Task 2 Autograd - gradients (Use requires_grad=True to track operations for automatic differentiation.)
@@ -48,7 +48,7 @@ print('dc/db (grad of b):', b.grad)
 # Create synthetic dataset (2D) - two blobs
 from sklearn.datasets import make_blobs
 X, y = make_blobs(n_samples=500, centers=2, random_state=42)
-X = x.astype(np.float32)
+X = X.astype(np.float32)
 y = y.astype(np.int64)
 
 # Convert to torch tensors
@@ -66,13 +66,13 @@ plt.show()
 class SimpleMLP(nn.Module):
     def __init__(self, in_dim=2, hidden=16, out_dim=2):
         super().__init__()
-        self.net = nn.sequential(
+        self.net = nn.Sequential(
             nn.Linear(in_dim, hidden),
             nn.ReLU(),
             nn.Linear(hidden, out_dim)
         )
-        def forward(self, X):
-            return self.net(x)
+    def forward(self, X):
+        return self.net(X)
         
 model = SimpleMLP()
 print(model)
@@ -146,6 +146,7 @@ torch.save(model.state_dict(), 'simple_mlp.pth')
 print('Saved model to simple_mlp.pth')
 
 # Load into new model instance
-m2 = SimpleMLP
+m2 = SimpleMLP()
 m2.load_state_dict(torch.load('simple_mlp.pth'))
+m2.eval()
 print('Loaded model state into new instance')
